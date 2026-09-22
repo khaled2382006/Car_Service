@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h1>Smart Car Service Dashboard</h1>
+
+<h2>Welcome, {{ user.username }}</h2>
+
+{% if user.profile %}
+    <p>Role: {{ user.profile.get_role_display }}</p>
+{% endif %}
+
+<hr>
+
+<h3>Coming Soon</h3>
+
+<ul>
+    <li>My Vehicles</li>
+    <li>Maintenance History</li>
+    <li>Appointments</li>
+    <li>Technicians</li>
+    <li>Spare Parts</li>
+    <li>AI Assistant</li>
+</ul>
+
+{% endblock %}
