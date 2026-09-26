@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}
+Technicians | SmartCar
+{% endblock %}
+
+{% block page_title %}
+Technicians
+{% endblock %}
+
+{% block content %}
+
+<div class="page-intro">
+
+    <div>
+        <span class="section-label">
+            OUR TEAM
+        </span>
+
+        <h2>
+            Service Technicians
+        </h2>
+
+        <p>
+            Meet the technicians available to service your vehicle.
+        </p>
+    </div>
+
+</div>
+
+
+{% if technicians %}
+
+<div class="technician-grid">
+
+    {% for technician in technicians %}
+
+    <div class="technician-card">
+
+        <div class="technician-card-top">
+
+            <div class="large-technician-avatar">
+                {{ technician.name|first|upper }}
+            </div>
+
+
+            {% if technician.is_available %}
+
+            <span class="available-badge">
+                ● Available
+            </span>
+
+            {% else %}
+
+            <span class="unavailable-badge">
+                ● Unavailable
+            </span>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="technician-card-body">
+
+            <h3>
+                {{ technician.name }}
+            </h3>
+
+            <p class="technician-specialization">
+                {{ technician.specialization }}
+            </p>
+
+
+            <div class="technician-phone">
+
+                <span>
+                    📞
+                </span>
+
+                {{ technician.phone }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="empty-state">
+
+    <div class="empty-icon">
+        👨‍🔧
+    </div>
+
+    <h2>
+        No Technicians
+    </h2>
+
+    <p>
+        There are currently no technicians registered.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

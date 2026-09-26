@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Add Vehicle | SmartCar{% endblock %}
+
+{% block page_title %}
+Add Vehicle
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h2>Add New Vehicle</h2>
+        <p>Register a new vehicle to your SmartCar account.</p>
+    </div>
+
+    <a href="{% url 'vehicle_list' %}" class="secondary-btn">
+        ← Back to Vehicles
+    </a>
+</div>
+
+
+<div class="form-card">
+
+    <div class="form-card-header">
+        <div class="form-icon">
+            🚗
+        </div>
+
+        <div>
+            <h3>Vehicle Information</h3>
+            <p>Enter your vehicle details below.</p>
+        </div>
+    </div>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="error-box">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+
+        <div class="form-grid">
+
+            {% for field in form %}
+
+                <div class="form-group">
+
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <small class="help-text">
+                            {{ field.help_text }}
+                        </small>
+                    {% endif %}
+
+                    {% if field.errors %}
+                        <div class="field-error">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <a
+                href="{% url 'vehicle_list' %}"
+                class="cancel-btn"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                🚗 Add Vehicle
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

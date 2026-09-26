@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}
+Services | SmartCar
+{% endblock %}
+
+{% block page_title %}
+Services
+{% endblock %}
+
+{% block content %}
+
+<div class="page-intro">
+
+    <div>
+        <span class="section-label">
+            CAR CARE SERVICES
+        </span>
+
+        <h2>
+            Available Services
+        </h2>
+
+        <p>
+            Explore the services available for your vehicle.
+        </p>
+    </div>
+
+    <a
+        href="{% url 'appointment_create' %}"
+        class="primary-btn"
+    >
+        + Book Service
+    </a>
+
+</div>
+
+
+{% if services %}
+
+<div class="service-grid">
+
+    {% for service in services %}
+
+    <div class="service-card">
+
+        <div class="service-icon">
+            🔧
+        </div>
+
+
+        <div class="service-content">
+
+            <h3>
+                {{ service.name }}
+            </h3>
+
+            {% if service.description %}
+
+            <p>
+                {{ service.description }}
+            </p>
+
+            {% else %}
+
+            <p>
+                Professional vehicle service
+                provided by our service center.
+            </p>
+
+            {% endif %}
+
+
+            <div class="service-details">
+
+                <div>
+
+                    <span>
+                        DURATION
+                    </span>
+
+                    <strong>
+                        {{ service.estimated_duration }} min
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PRICE
+                    </span>
+
+                    <strong>
+                        ${{ service.base_price }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{% url 'appointment_create' %}"
+                class="service-btn"
+            >
+                Book This Service →
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="empty-state">
+
+    <div class="empty-icon">
+        🛠️
+    </div>
+
+    <h2>
+        No Services Available
+    </h2>
+
+    <p>
+        There are currently no services available.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

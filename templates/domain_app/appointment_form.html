@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block title %}Book Appointment | SmartCar{% endblock %}
+
+{% block page_title %}
+Book Appointment
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+    <div>
+        <h2>Book Service Appointment</h2>
+        <p>Schedule a service appointment for your vehicle.</p>
+    </div>
+
+    <a href="{% url 'vehicle_list' %}" class="secondary-btn">
+        ← Back
+    </a>
+
+</div>
+
+
+<div class="form-card appointment-card">
+
+    <div class="form-card-header">
+
+        <div class="form-icon">
+            📅
+        </div>
+
+        <div>
+            <h3>Appointment Details</h3>
+            <p>Choose your vehicle, service, technician and appointment time.</p>
+        </div>
+
+    </div>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="error-box">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+
+        <div class="form-grid">
+
+
+            <!-- Vehicle -->
+
+            <div class="form-group">
+
+                <label for="{{ form.vehicle.id_for_label }}">
+                    Vehicle
+                </label>
+
+                {{ form.vehicle }}
+
+                {% if form.vehicle.errors %}
+                    <div class="field-error">
+                        {{ form.vehicle.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- Service -->
+
+            <div class="form-group">
+
+                <label for="{{ form.service.id_for_label }}">
+                    Service
+                </label>
+
+                {{ form.service }}
+
+                {% if form.service.errors %}
+                    <div class="field-error">
+                        {{ form.service.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- Technician -->
+
+            <div class="form-group">
+
+                <label for="{{ form.technician.id_for_label }}">
+                    Technician
+                </label>
+
+                {{ form.technician }}
+
+                {% if form.technician.errors %}
+                    <div class="field-error">
+                        {{ form.technician.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- Date -->
+
+            <div class="form-group">
+
+                <label for="{{ form.appointment_date.id_for_label }}">
+                    Appointment Date
+                </label>
+
+                {{ form.appointment_date }}
+
+                {% if form.appointment_date.errors %}
+                    <div class="field-error">
+                        {{ form.appointment_date.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- Time -->
+
+            <div class="form-group">
+
+                <label for="{{ form.appointment_time.id_for_label }}">
+                    Appointment Time
+                </label>
+
+                {{ form.appointment_time }}
+
+                {% if form.appointment_time.errors %}
+                    <div class="field-error">
+                        {{ form.appointment_time.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+            <!-- Notes -->
+
+            <div class="form-group full-width">
+
+                <label for="{{ form.notes.id_for_label }}">
+                    Notes
+                </label>
+
+                {{ form.notes }}
+
+                {% if form.notes.errors %}
+                    <div class="field-error">
+                        {{ form.notes.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+
+        <div class="form-actions">
+
+            <a
+                href="{% url 'vehicle_list' %}"
+                class="cancel-btn"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="primary-btn"
+            >
+                📅 Book Appointment
+            </button>
+
+        </div>
+
+    </form>
+    </div>
+
+{% endblock %}

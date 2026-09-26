@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Vehicles | SmartCar
+{% endblock %}
+
+{% block page_title %}
+My Vehicles
+{% endblock %}
+
+{% block content %}
+
+<div class="vehicles-page">
+
+    <!-- Page Header -->
+    <div class="section-header">
+
+        <div>
+            <p class="section-label">YOUR GARAGE</p>
+
+            <h2>My Vehicles</h2>
+
+            <p class="section-description">
+                Manage your vehicles and view their service information.
+            </p>
+        </div>
+
+        <a href="{% url 'vehicle_create' %}" class="primary-btn">
+            + Add Vehicle
+        </a>
+
+    </div>
+
+
+    <!-- Vehicles -->
+    {% if vehicles %}
+
+        <div class="vehicles-grid">
+
+            {% for vehicle in vehicles %}
+
+                <div class="vehicle-card">
+
+                    <!-- Card Top -->
+                    <div class="vehicle-card-top">
+
+                        <div class="vehicle-icon">
+                            🚗
+                        </div>
+
+                        <div class="vehicle-status">
+                            Active
+                        </div>
+
+                    </div>
+
+
+                    <!-- Vehicle Name -->
+                    <div class="vehicle-info">
+
+                        <h3>
+                            {{ vehicle.make }} {{ vehicle.model }}
+                        </h3>
+
+                        <p class="vehicle-year">
+                            {{ vehicle.year }}
+                        </p>
+
+                    </div>
+
+
+                    <!-- Vehicle Details -->
+                    <div class="vehicle-details">
+
+                        <div class="vehicle-detail-item">
+
+                            <span class="detail-label">
+                                License Plate
+                            </span>
+
+                            <strong>
+                                {{ vehicle.license_plate }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="vehicle-detail-item">
+
+                            <span class="detail-label">
+                                VIN
+                            </span>
+
+                            <strong>
+                                {% if vehicle.vin %}
+                                    {{ vehicle.vin }}
+                                {% else %}
+                                    Not provided
+                                {% endif %}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Button -->
+                    <a
+                        href="{% url 'vehicle_detail' vehicle.id %}"
+                        class="vehicle-details-btn"
+                    >
+                        View Details
+                        <span>→</span>
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <!-- Empty State -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                🚗
+            </div>
+
+            <h3>
+                No Vehicles Yet
+            </h3>
+
+            <p>
+                You haven't added any vehicles to your account.
+            </p>
+
+            <a
+                href="{% url 'vehicle_create' %}"
+                class="primary-btn"
+            >
+                + Add Your First Vehicle
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

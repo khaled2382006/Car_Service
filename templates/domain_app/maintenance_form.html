@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Add Maintenance{% endblock %}
+
+{% block content %}
+
+<h1>
+    Add Maintenance Record
+</h1>
+
+<p>
+    Vehicle:
+    {{ vehicle.make }} {{ vehicle.model }}
+</p>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save Record
+    </button>
+
+</form>
+
+{% endblock %}

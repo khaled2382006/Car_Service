@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartCar Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .dashboard {
+            display: flex;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 250px;
+            background: #101d35;
+            color: white;
+            padding: 25px 18px;
+
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 5px 10px 30px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+
+            background: #2878f0;
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+        .brand h2 {
+            font-size: 20px;
+        }
+
+        .brand span {
+            display: block;
+            color: #aebbd0;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+
+            padding: 13px 14px;
+
+            border-radius: 10px;
+
+            color: #c7d2e4;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #1d3154;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2878f0;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 25px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+
+        .sidebar-bottom {
+            margin-top: auto;
+
+            background: #172b4b;
+
+            padding: 25px 15px;
+
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+        .sidebar-bottom .car {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-bottom h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-bottom p {
+            color: #aebbd0;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 22px 28px;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .search {
+            width: 480px;
+
+            background: white;
+
+            border-radius: 30px;
+
+            padding: 13px 20px;
+
+            color: #9aa5b5;
+        }
+
+        .search span {
+            margin-right: 10px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification {
+            font-size: 22px;
+            margin-right: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #2878f0;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .user-info span {
+            display: block;
+            color: #8995a8;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background: linear-gradient(
+                110deg,
+                #102b52,
+                #163e70
+            );
+
+            border-radius: 15px;
+
+            padding: 35px;
+
+            color: white;
+
+            min-height: 175px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            overflow: hidden;
+
+            margin-bottom: 25px;
+        }
+
+        .hero-text h1 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .hero-text p {
+            color: #c9dbf1;
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .hero-car {
+            font-size: 100px;
+            opacity: 0.9;
+            margin-right: 50px;
+        }
+
+
+        /* =========================
+           ACTION GRID
+        ========================= */
+
+        .action-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+        .action-card {
+            background: white;
+
+            min-height: 180px;
+
+            border-radius: 13px;
+
+            padding: 22px;
+
+            position: relative;
+
+            border: 1px solid #e6eaf0;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 12px 30px
+                rgba(24, 39, 75, 0.12);
+        }
+
+        .action-icon {
+            width: 46px;
+            height: 46px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+
+            margin-bottom: 18px;
+        }
+
+        .blue {
+            background: #e8f1ff;
+        }
+
+        .green {
+            background: #e7faf2;
+        }
+
+        .purple {
+            background: #f1eaff;
+        }
+
+        .red {
+            background: #ffecee;
+        }
+
+        .orange {
+            background: #fff1df;
+        }
+
+        .cyan {
+            background: #e4f9fc;
+        }
+
+        .action-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .action-card p {
+            color: #758197;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .arrow {
+            position: absolute;
+
+            right: 20px;
+            bottom: 20px;
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 50%;
+
+            background: #2878f0;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =========================
+           LOWER CONTENT
+        ========================= */
+
+        .lower-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.2fr 1fr;
+
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+
+            border-radius: 13px;
+
+            border: 1px solid #e6eaf0;
+
+            padding: 22px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .panel-header h2 {
+            font-size: 19px;
+        }
+
+        .view-all {
+            color: #2878f0;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        /* =========================
+           VEHICLES
+        ========================= */
+
+        .vehicle-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 12px;
+        }
+
+        .vehicle-card {
+            border: 1px solid #e8ecf2;
+
+            border-radius: 10px;
+
+            padding: 15px;
+        }
+
+        .vehicle-image {
+            height: 90px;
+
+            background: #edf2f8;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 45px;
+
+            margin-bottom: 12px;
+        }
+
+        .vehicle-card h3 {
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .vehicle-card p {
+            color: #7c8799;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .vehicle-button {
+            display: block;
+
+            margin-top: 12px;
+
+            text-align: center;
+
+            background: #eef5ff;
+
+            color: #2878f0;
+
+            padding: 8px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           APPOINTMENTS
+        ========================= */
+
+        .appointment {
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 13px;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 10px;
+
+            margin-bottom: 10px;
+        }
+
+        .date-box {
+            min-width: 52px;
+
+            height: 55px;
+
+            border-radius: 9px;
+
+            background: #edf4ff;
+
+            color: #2878f0;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .date-box strong {
+            font-size: 18px;
+        }
+
+        .date-box span {
+            font-size: 10px;
+        }
+
+        .appointment-info {
+            flex: 1;
+        }
+
+        .appointment-info h3 {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .appointment-info p {
+            color: #7b8798;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .status {
+            padding: 6px 10px;
+
+            background: #e9faf1;
+
+            color: #18a566;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 35px 10px;
+
+            color: #8995a8;
+        }
+
+        .empty-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .action-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .lower-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 15px 8px;
+            }
+
+            .brand h2,
+            .brand span,
+            .menu a span,
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .brand {
+                justify-content: center;
+            }
+
+            .menu a {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 15px;
+            }
+
+            .search {
+                width: 50%;
+            }
+
+            .hero-car {
+                display: none;
+            }
+
+            .vehicle-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+            .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                flex-wrap: wrap;
+                height: auto;
+                gap: 12px;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .hero {
+                padding: 25px;
+            }
+
+            .hero-text h1 {
+                font-size: 24px;
+            }
+
+            .user {
+                display: none;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="dashboard">
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🚗
+            </div>
+
+            <div>
+                <h2>SmartCar</h2>
+                <span>Service Management</span>
+            </div>
+
+        </div>
+
+
+        <nav class="menu">
+
+            <a
+                href="/app/"
+                class="active"
+            >
+                <span class="menu-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a href="/app/vehicles/">
+
+                <span class="menu-icon">🚗</span>
+
+                <span>
+                    My Vehicles
+                </span>
+
+            </a>
+
+
+            <a href="/app/vehicles/add/">
+
+                <span class="menu-icon">＋</span>
+
+                <span>
+                    Add Vehicle
+                </span>
+
+            </a>
+
+
+            <a href="/app/appointments/">
+
+                <span class="menu-icon">📅</span>
+
+                <span>
+                    Appointments
+                </span>
+
+            </a>
+
+
+            <a href="/app/appointments/add/">
+
+                <span class="menu-icon">＋</span>
+
+                <span>
+                    Book Appointment
+                </span>
+
+            </a>
+
+
+            <a href="/app/maintenance/">
+
+                <span class="menu-icon">🔧</span>
+
+                <span>
+                    Maintenance
+                </span>
+
+            </a>
+
+
+            <a href="/app/services/">
+
+                <span class="menu-icon">📋</span>
+
+                <span>
+                    Services
+                </span>
+
+            </a>
+
+
+            <a href="/app/technicians/">
+
+                <span class="menu-icon">👨‍🔧</span>
+
+                <span>
+                    Technicians
+                </span>
+
+            </a>
+
+
+            <a href="/ai/chat/">
+
+                <span class="menu-icon">🤖</span>
+
+                <span>
+                    AI Assistant
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="car">
+                🚘
+            </div>
+
+            <h3>
+                Keep Your Car
+                in Best Condition
+            </h3>
+
+            <p>
+                Smart Service • Better Drives
+            </p>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================
+         MAIN
+    ========================== -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="search">
+
+                🔍
+
+                <span>
+                    Search for vehicles, services...
+                </span>
+
+            </div>
+
+
+            <div class="user">
+
+                <div class="notification">
+                    🔔
+                </div>
+
+
+                <div class="avatar">
+                    {{ request.user.username|first|upper }}
+                </div>
+
+
+                <div class="user-info">
+
+                    <strong>
+                        {{ request.user.username }}
+                    </strong>
+
+                    <span>
+                        Vehicle Owner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-text">
+                <h1>
+                    Welcome back{% if request.user.first_name %},
+                    {{ request.user.first_name }}{% endif %} 👋
+                </h1>
+
+                <p>
+                    Manage your vehicles, appointments
+                    and get the best car service experience.
+                </p>
+
+            </div>
+
+
+            <div class="hero-car">
+                🚘
+            </div>
+
+        </section>
+
+
+
+        <!-- ACTION CARDS -->
+
+        <section class="action-grid">
+
+
+            <!-- VEHICLES -->
+
+            <a
+                href="/app/vehicles/"
+                class="action-card"
+            >
+
+                <div class="action-icon blue">
+                    🚗
+                </div>
+
+                <h3>
+                    My Vehicles
+                </h3>
+
+                <p>
+                    View and manage your registered vehicles.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- ADD VEHICLE -->
+
+            <a
+                href="/app/vehicles/add/"
+                class="action-card"
+            >
+
+                <div class="action-icon green">
+                    ＋
+                </div>
+
+                <h3>
+                    Add Vehicle
+                </h3>
+
+                <p>
+                    Register a new vehicle in your account.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- APPOINTMENTS -->
+
+            <a
+                href="/app/appointments/"
+                class="action-card"
+            >
+
+                <div class="action-icon purple">
+                    📅
+                </div>
+
+                <h3>
+                    Appointments
+                </h3>
+
+                <p>
+                    View and manage your service appointments.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- BOOK -->
+
+            <a
+                href="/app/appointments/add/"
+                class="action-card"
+            >
+
+                <div class="action-icon red">
+                    📆
+                </div>
+
+                <h3>
+                    Book Appointment
+                </h3>
+
+                <p>
+                    Schedule a new service appointment.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- MAINTENANCE -->
+
+            <a
+                href="/app/maintenance/"
+                class="action-card"
+            >
+
+                <div class="action-icon orange">
+                    🔧
+                </div>
+
+                <h3>
+                    Maintenance
+                </h3>
+
+                <p>
+                    View your maintenance history and records.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- SERVICES -->
+
+            <a
+                href="/app/services/"
+                class="action-card"
+            >
+
+                <div class="action-icon cyan">
+                    📋
+                </div>
+
+                <h3>
+                    Services
+                </h3>
+
+                <p>
+                    Explore our available service packages.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- TECHNICIANS -->
+
+            <a
+                href="/app/technicians/"
+                class="action-card"
+            >
+
+                <div class="action-icon purple">
+                    👨‍🔧
+                </div>
+
+                <h3>
+                    Technicians
+                </h3>
+
+                <p>
+                    Meet our available technicians.
+                </p>
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+
+
+            <!-- AI -->
+
+            <a
+                href="/ai/chat/"
+                class="action-card"
+            >
+
+                <div class="action-icon blue">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Assistant
+                </h3>
+
+                <p>
+                    Ask the Smart Car AI about your vehicles
+                    and services.
+                </p>
+
+                <div class="arrow">
+                    →
+                </div>
+
+            </a>
+
+        </section>
+
+
+
+        <!-- LOWER CONTENT -->
+
+        <section class="lower-grid">
+
+
+            <!-- VEHICLES -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        🚗 Your Vehicles
+                    </h2>
+
+                    <a
+                        href="/app/vehicles/"
+                        class="view-all"
+                    >
+                        View All →
+                    </a>
+
+                </div>
+
+
+                {% if vehicles %}
+
+                    <div class="vehicle-grid">
+
+                        {% for vehicle in vehicles %}
+
+                            <div class="vehicle-card">
+
+                                <div class="vehicle-image">
+                                    🚘
+                                </div>
+
+                                <h3>
+                                    {{ vehicle.make }}
+                                    {{ vehicle.model }}
+                                </h3>
+
+                                <p>
+                                    📅 {{ vehicle.year }}
+                                </p>
+
+                                <p>
+                                    🔢 {{ vehicle.license_plate }}
+                                </p>
+
+                                <a
+                                    href="/app/vehicles/{{ vehicle.id }}/"
+                                    class="vehicle-button"
+                                >
+                                    View Details →
+                                </a>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🚗
+                        </div>
+
+                        <p>
+                            No vehicles registered yet.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- APPOINTMENTS -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <h2>
+                        📅 Upcoming Appointments
+                    </h2>
+
+                    <a
+                        href="/app/appointments/"
+                        class="view-all"
+                    >
+                        View All →
+                    </a>
+
+                </div>
+
+
+                {% if appointments %}
+
+                    {% for appointment in appointments %}
+
+                        <div class="appointment">
+
+                            <div class="date-box">
+
+                                <strong>
+                                    {{ appointment.appointment_date|date:"d" }}
+                                </strong>
+
+                                <span>
+                                    {{ appointment.appointment_date|date:"M" }}
+                                </span>
+
+                            </div>
+
+
+                            <div class="appointment-info">
+
+                                <h3>
+
+                                    {% if appointment.service %}
+                                        {{ appointment.service.name }}
+                                    {% else %}
+                                        Service Appointment
+                                    {% endif %}
+                                    </h3>
+
+
+                                <p>
+                                    🚗
+                                    {{ appointment.vehicle.make }}
+                                    {{ appointment.vehicle.model }}
+                                    ({{ appointment.vehicle.year }})
+                                </p>
+
+
+                                <p>
+                                    🕐
+                                    {{ appointment.appointment_time }}
+                                </p>
+
+
+                                {% if appointment.technician %}
+
+                                    <p>
+                                        👨‍🔧
+                                        {{ appointment.technician.name }}
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="status">
+
+                                {{ appointment.get_status_display }}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            📅
+                        </div>
+
+                        <p>
+                            No upcoming appointments.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

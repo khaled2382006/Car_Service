@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle Details{% endblock %}
+
+{% block content %}
+
+<h1>
+    {{ vehicle.make }} {{ vehicle.model }}
+</h1>
+
+<p>Year: {{ vehicle.year }}</p>
+<p>License Plate: {{ vehicle.license_plate }}</p>
+<p>VIN: {{ vehicle.vin }}</p>
+
+<hr>
+
+<h2>Maintenance History</h2>
+
+<a href="{% url 'maintenance_create' vehicle.id %}">
+    Add Maintenance Record
+</a>
+
+{% if maintenance_records %}
+
+    {% for record in maintenance_records %}
+
+        <div>
+            <h3>{{ record.service_name }}</h3>
+
+            <p>
+                Date: {{ record.maintenance_date }}
+            </p>
+
+            <p>
+                Cost: {{ record.cost }}
+            </p>
+
+            <p>
+                {{ record.description }}
+            </p>
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>No maintenance records yet.</p>
+
+{% endif %}
+
+
+<h2>Appointments</h2>
+
+{% if appointments %}
+
+    {% for appointment in appointments %}
+
+        <div>
+            <p>
+                Service: {{ appointment.service.name }}
+            </p>
+
+            <p>
+                Date: {{ appointment.appointment_date }}
+            </p>
+
+            <p>
+                Time: {{ appointment.appointment_time }}
+            </p>
+
+            <p>
+                Status: {{ appointment.get_status_display }}
+            </p>
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>No appointments yet.</p>
+
+{% endif %}
+
+{% endblock %}

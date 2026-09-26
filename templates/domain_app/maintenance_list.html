@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+Maintenance | SmartCar
+{% endblock %}
+
+{% block page_title %}
+Maintenance
+{% endblock %}
+
+{% block content %}
+
+<div class="page-intro">
+
+    <div>
+        <span class="section-label">
+            VEHICLE CARE
+        </span>
+
+        <h2>
+            Maintenance History
+        </h2>
+
+        <p>
+            Track the maintenance history of your vehicles.
+        </p>
+    </div>
+
+</div>
+
+
+{% if maintenance_records %}
+
+<div class="maintenance-grid">
+
+    {% for record in maintenance_records %}
+
+    <div class="maintenance-card">
+
+        <div class="maintenance-header">
+
+            <div class="maintenance-icon">
+                🔧
+            </div>
+
+            <span class="maintenance-date">
+                {{ record.maintenance_date|date:"M d, Y" }}
+            </span>
+
+        </div>
+
+
+        <div class="maintenance-body">
+
+            <h3>
+                {{ record.service_name }}
+            </h3>
+
+            <p class="maintenance-vehicle">
+                🚗 {{ record.vehicle.make }}
+                {{ record.vehicle.model }}
+                {{ record.vehicle.year }}
+            </p>
+
+
+            {% if record.description %}
+
+            <p class="maintenance-description">
+                {{ record.description }}
+            </p>
+
+            {% endif %}
+
+
+            <div class="maintenance-cost">
+
+                <div>
+                    <span>
+                        SERVICE COST
+                    </span>
+
+                    <strong>
+                        ${{ record.cost }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            {% if record.notes %}
+
+            <div class="maintenance-notes">
+
+                <strong>
+                    Notes
+                </strong>
+
+                <p>
+                    {{ record.notes }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+{% else %}
+
+<div class="empty-state">
+
+    <div class="empty-icon">
+        🔧
+    </div>
+
+    <h2>
+        No Maintenance Records
+    </h2>
+
+    <p>
+        There is no maintenance history recorded
+        for your vehicles yet.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

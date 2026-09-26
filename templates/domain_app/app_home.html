@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Car Service</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 22px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            background: #374151;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #6b7280;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px;
+            text-decoration: none;
+            color: #111827;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: 0.2s;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .icon {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #6b7280;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .count {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .card-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 9px 15px;
+            background: #2563eb;
+            color: white;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .ai-card {
+            grid-column: span 3;
+            background: linear-gradient(
+                135deg,
+                #111827,
+                #1e3a8a
+            );
+            color: white;
+        }
+
+        .ai-card p {
+            color: #d1d5db;
+        }
+
+        .ai-card .card-button {
+            background: white;
+            color: #111827;
+        }
+
+        @media (max-width: 900px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ai-card {
+                grid-column: span 2;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-card {
+                grid-column: span 1;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <h1>
+        Smart Car Service
+    </h1>
+
+    <a href="/auth/logout/">
+        Logout
+    </a>
+
+</header>
+
+
+<main class="container">
+
+
+    <div class="welcome">
+
+        <h2>
+            Welcome to your Dashboard
+        </h2>
+
+        <p>
+            Manage your vehicles, appointments,
+            maintenance and car service information.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <!-- VEHICLES -->
+
+        <a href="{% url 'vehicle_list' %}"
+           class="card">
+
+            <div class="icon">
+                🚗
+            </div>
+
+            <h3>
+                My Vehicles
+            </h3>
+            <p>
+                View and manage your registered vehicles.
+            </p>
+
+            <div class="count">
+                {{ vehicles_count }}
+            </div>
+
+            <span class="card-button">
+                View Vehicles
+            </span>
+
+        </a>
+
+
+        <!-- APPOINTMENTS -->
+
+        <a href="{% url 'appointment_create' %}"
+           class="card">
+
+            <div class="icon">
+                📅
+            </div>
+
+            <h3>
+                Appointments
+            </h3>
+
+            <p>
+                Book and manage service appointments.
+            </p>
+
+            <div class="count">
+                {{ appointments_count }}
+            </div>
+
+            <span class="card-button">
+                Add Appointment
+            </span>
+
+        </a>
+
+
+        <!-- MAINTENANCE -->
+
+        <a href="{% url 'vehicle_list' %}"
+           class="card">
+
+            <div class="icon">
+                🔧
+            </div>
+
+            <h3>
+                Maintenance
+            </h3>
+
+            <p>
+                View maintenance records for your vehicles.
+            </p>
+
+            <div class="count">
+                {{ maintenance_count }}
+            </div>
+
+            <span class="card-button">
+                View Maintenance
+            </span>
+
+        </a>
+
+
+        <!-- TECHNICIANS -->
+
+        <a href="{% url 'technician_list' %}"
+           class="card">
+
+            <div class="icon">
+                👨‍🔧
+            </div>
+
+            <h3>
+                Technicians
+            </h3>
+
+            <p>
+                Browse available technicians and their
+                specializations.
+            </p>
+
+            <div class="count">
+                {{ technicians_count }}
+            </div>
+
+            <span class="card-button">
+                View Technicians
+            </span>
+
+        </a>
+
+
+        <!-- SERVICES -->
+
+        <a href="{% url 'service_list' %}"
+           class="card">
+
+            <div class="icon">
+                🛠️
+            </div>
+
+            <h3>
+                Services
+            </h3>
+
+            <p>
+                View available car maintenance services.
+            </p>
+
+            <div class="count">
+                {{ services_count }}
+            </div>
+
+            <span class="card-button">
+                View Services
+            </span>
+
+        </a>
+
+
+        <!-- SPARE PARTS -->
+
+        <a href="{% url 'spare_part_list' %}"
+           class="card">
+
+            <div class="icon">
+                🔩
+            </div>
+
+            <h3>
+                Spare Parts
+            </h3>
+
+            <p>
+                Browse spare parts and their availability.
+            </p>
+
+            <div class="count">
+                {{ spare_parts_count }}
+            </div>
+
+            <span class="card-button">
+                View Spare Parts
+            </span>
+
+        </a>
+
+
+        <!-- AI -->
+
+        <a href="/ai/chat/"
+           class="card ai-card">
+
+            <div class="icon">
+                🤖
+            </div>
+
+            <h3>
+                AI Assistant
+            </h3>
+
+            <p>
+                Ask the AI assistant about your vehicles,
+                appointments, maintenance history and
+                available services.
+            </p>
+
+            <span class="card-button">
+                Open AI Assistant
+            </span>
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

@@ -6,23 +6,47 @@
 
 <h1>Smart Car Service Dashboard</h1>
 
-<h2>Welcome, {{ user.username }}</h2>
+<h2>
+    Welcome, {{ user.username }}
+</h2>
 
 {% if user.profile %}
-    <p>Role: {{ user.profile.get_role_display }}</p>
+    <p>
+        Role:
+        {{ user.profile.get_role_display }}
+    </p>
 {% endif %}
 
 <hr>
 
-<h3>Coming Soon</h3>
+<h2>Car Services</h2>
 
 <ul>
-    <li>My Vehicles</li>
-    <li>Maintenance History</li>
-    <li>Appointments</li>
-    <li>Technicians</li>
-    <li>Spare Parts</li>
-    <li>AI Assistant</li>
+    <li>
+        <a href="{% url 'vehicle_list' %}">
+            My Vehicles
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'vehicle_create' %}">
+            Add Vehicle
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'appointment_create' %}">
+            Book Appointment
+        </a>
+    </li>
 </ul>
+
+<hr>
+
+<h2>AI Assistant</h2>
+
+<p>
+    AI Assistant will be added here.
+</p>
 
 {% endblock %}
