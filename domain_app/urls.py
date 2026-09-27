@@ -4,6 +4,13 @@ from . import views
 
 
 urlpatterns = [
+    # Global Search
+    path(
+        "search/",
+        views.global_search,
+        name="global_search",
+    ),
+
     # Dashboard
     path(
         "",

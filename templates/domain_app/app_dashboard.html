@@ -180,20 +180,55 @@
             margin-bottom: 20px;
         }
 
-        .search {
+        .search-form {
             width: 480px;
-
             background: white;
-
             border-radius: 30px;
+            padding: 5px 6px 5px 18px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #e6eaf0;
+            transition: all 0.2s ease;
+        }
 
-            padding: 13px 20px;
+        .search-form:focus-within {
+            border-color: #2878f0;
+            box-shadow: 0 0 0 3px rgba(40, 120, 240, 0.12);
+        }
 
+        .search-form span.search-icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .search-form input {
+            border: none;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            font-size: 14px;
+            color: #172033;
+        }
+
+        .search-form input::placeholder {
             color: #9aa5b5;
         }
 
-        .search span {
-            margin-right: 10px;
+        .search-form .search-btn {
+            background: #2878f0;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-form .search-btn:hover {
+            background: #1b62cc;
         }
 
         .user {
@@ -849,15 +884,21 @@
 
         <div class="topbar">
 
-            <div class="search">
+            <form action="{% url 'global_search' %}" method="GET" class="search-form">
 
-                🔍
+                <span class="search-icon">🔍</span>
 
-                <span>
-                    Search for vehicles, services...
-                </span>
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search for vehicles, services..."
+                    value="{{ query|default:'' }}"
+                    autocomplete="off"
+                >
 
-            </div>
+                <button type="submit" class="search-btn">Search</button>
+
+            </form>
 
 
             <div class="user">

@@ -12,7 +12,6 @@ My Vehicles
 
 <div class="vehicles-page">
 
-    <!-- Page Header -->
     <div class="section-header">
 
         <div>
@@ -32,122 +31,242 @@ My Vehicles
     </div>
 
 
-    <!-- Vehicles -->
     {% if vehicles %}
 
-        <div class="vehicles-grid">
+    <!-- SEARCH -->
 
-            {% for vehicle in vehicles %}
+    <div class="vehicle-search">
 
-                <div class="vehicle-card">
+        <span>🔍</span>
 
-                    <!-- Card Top -->
-                    <div class="vehicle-card-top">
+        <input
+            id="vehicleSearch"
+            type="text"
+            placeholder="Search your vehicles..."
+            value="{{ query|default:'' }}"
+        >
 
-                        <div class="vehicle-icon">
-                            🚗
-                        </div>
-
-                        <div class="vehicle-status">
-                            Active
-                        </div>
-
-                    </div>
+    </div>
 
 
-                    <!-- Vehicle Name -->
-                    <div class="vehicle-info">
+    <!-- VEHICLES -->
 
-                        <h3>
-                            {{ vehicle.make }} {{ vehicle.model }}
-                        </h3>
+    <div
+        class="vehicles-grid"
+        id="vehiclesContainer"
+    >
 
-                        <p class="vehicle-year">
-                            {{ vehicle.year }}
-                        </p>
+        {% for vehicle in vehicles %}
 
-                    </div>
+        <div
+            class="vehicle-card"
+            data-vehicle-search="{{ vehicle.make }} {{ vehicle.model }} {{ vehicle.year }} {{ vehicle.license_plate }} {{ vehicle.vin }}"
+        >
 
+            <div class="vehicle-card-top">
 
-                    <!-- Vehicle Details -->
-                    <div class="vehicle-details">
+                <div class="vehicle-icon">
+                    🚗
+                </div>
 
-                        <div class="vehicle-detail-item">
+                <div class="vehicle-status">
+                    Active
+                </div>
 
-                            <span class="detail-label">
-                                License Plate
-                            </span>
-
-                            <strong>
-                                {{ vehicle.license_plate }}
-                            </strong>
-
-                        </div>
+            </div>
 
 
-                        <div class="vehicle-detail-item">
+            <div class="vehicle-info">
 
-                            <span class="detail-label">
-                                VIN
-                            </span>
+                <h3>
+                    {{ vehicle.make }} {{ vehicle.model }}
+                </h3>
 
-                            <strong>
-                                {% if vehicle.vin %}
-                                    {{ vehicle.vin }}
-                                {% else %}
-                                    Not provided
-                                {% endif %}
-                            </strong>
+                <p class="vehicle-year">
+                    {{ vehicle.year }}
+                </p>
 
-                        </div>
-
-                    </div>
+            </div>
 
 
-                    <!-- Button -->
-                    <a
-                        href="{% url 'vehicle_detail' vehicle.id %}"
-                        class="vehicle-details-btn"
-                    >
-                        View Details
-                        <span>→</span>
-                    </a>
+            <div class="vehicle-details">
+
+                <div class="vehicle-detail-item">
+
+                    <span class="detail-label">
+                        License Plate
+                    </span>
+
+                    <strong>
+                        {{ vehicle.license_plate }}
+                    </strong>
 
                 </div>
 
-            {% endfor %}
 
-        </div>
+                <div class="vehicle-detail-item">
 
-    {% else %}
+                    <span class="detail-label">
+                        VIN
+                    </span>
 
-        <!-- Empty State -->
+                    <strong>
 
-        <div class="empty-state">
+                        {% if vehicle.vin %}
+                            {{ vehicle.vin }}
+                        {% else %}
+                            Not provided
+                        {% endif %}
 
-            <div class="empty-icon">
-                🚗
+                    </strong>
+
+                </div>
+
             </div>
 
-            <h3>
-                No Vehicles Yet
-            </h3>
-
-            <p>
-                You haven't added any vehicles to your account.
-            </p>
 
             <a
-                href="{% url 'vehicle_create' %}"
-                class="primary-btn"
+                href="{% url 'vehicle_detail' vehicle.id %}"
+                class="vehicle-details-btn"
             >
-                + Add Your First Vehicle
+                View Details
+                <span>→</span>
             </a>
 
         </div>
 
+        {% endfor %}
+
+    </div>
+
+
+    <!-- NO RESULTS -->
+
+    <div
+        id="noVehiclesFound"
+        class="search-no-results"
+    >
+
+        <div class="empty-icon">
+            🔍
+        </div>
+
+        <h3>
+            No Vehicles Found
+        </h3>
+
+        <p>
+            Try searching with another name, model, year or license plate.
+        </p>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- NO VEHICLES -->
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            🚗
+        </div>
+
+        <h3>
+            No Vehicles Yet
+        </h3>
+
+        <p>
+            You haven't added any vehicles to your account.
+        </p>
+
+        <a
+            href="{% url 'vehicle_create' %}"
+            class="primary-btn"
+        >
+            + Add Your First Vehicle
+        </a>
+
+    </div>
+
     {% endif %}
 
 </div>
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const searchInput =
+        document.getElementById("vehicleSearch");
+
+    const cards =
+        document.querySelectorAll(".vehicle-card");
+
+    const noResults =
+        document.getElementById("noVehiclesFound");
+
+
+    if (!searchInput) {
+        return;
+    }
+
+
+    searchInput.addEventListener("input", function () {
+
+        const searchText =
+            this.value.toLowerCase().trim();
+
+        let found = 0;
+
+
+        cards.forEach(function (card) {
+
+            const vehicleText =
+                card
+                    .getAttribute("data-vehicle-search")
+                    .toLowerCase();
+
+
+            if (
+                searchText === "" ||
+                vehicleText.includes(searchText)
+            ) {
+
+                card.style.display = "";
+
+                found++;
+
+            } else {
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+
+        if (found === 0 && searchText !== "") {
+
+            noResults.style.display = "block";
+
+        } else {
+
+            noResults.style.display = "none";
+
+        }
+
+    }
+
+    searchInput.addEventListener("input", filterVehicles);
+
+    if (searchInput.value.trim() !== "") {
+        filterVehicles();
+    }
+
+});
+
+</script>
 
 {% endblock %}

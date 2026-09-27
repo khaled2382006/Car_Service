@@ -1,22 +1,66 @@
 {% extends "base.html" %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register | SmartCar{% endblock %}
+
+{% block page_title %}Register{% endblock %}
+
+{% block search_bar %}{% endblock %}
 
 {% block content %}
 
-<h1>Create Account</h1>
+<div class="auth-container">
+    <div class="form-card auth-card">
 
-<form method="POST">
-    {% csrf_token %}
+        <div class="form-card-header">
+            <div class="form-icon">
+                👤
+            </div>
+            <div>
+                <h3>Create Account</h3>
+                <p>Register to manage your vehicles and appointments</p>
+            </div>
+        </div>
 
-    {{ form.as_p }}
+        <form method="POST">
+            {% csrf_token %}
 
-    <button type="submit">Register</button>
-</form>
+            {% if form.non_field_errors %}
+                <div class="error-box">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
 
-<p>
-    Already have an account?
-    <a href="{% url 'login' %}">Login</a>
-</p>
+            <div class="form-grid">
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="help-text">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% if field.errors %}
+                            <div class="field-error">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="auth-actions">
+                <button type="submit" class="primary-btn w-100">
+                    Create Account →
+                </button>
+            </div>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{% url 'login' %}" class="auth-link">Sign In</a></p>
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}

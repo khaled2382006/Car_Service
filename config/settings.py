@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'car_service_db',
         'USER': 'postgres',
-        'PASSWORD': 'khaled238',
+        'PASSWORD': 'Mm90909090@',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -135,5 +135,5 @@ MAILERS = {
     },
 }
 LOGIN_URL = "/auth/login/"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/app/"
 LOGOUT_REDIRECT_URL = "/auth/login/"

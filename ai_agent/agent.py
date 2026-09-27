@@ -12,9 +12,8 @@ from .tools import (
 )
 
 
-load_dotenv()
-
-client = genai.Client()
+def get_client():
+    return genai.Client()
 
 MODEL = "gemini-3.6-flash"
 
@@ -254,6 +253,7 @@ def run_agent(
 
     print("=== AGENT START ===")
     print("USER INPUT:", user_input)
+    client = get_client()
 
     try:
         if previous_interaction_id:

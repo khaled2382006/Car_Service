@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}
+Search Results | SmartCar
+{% endblock %}
+
+{% block page_title %}
+Search Results
+{% endblock %}
+
+{% block content %}
+
+<div class="vehicles-page">
+
+    <div class="section-header">
+        <div>
+            <p class="section-label">GLOBAL SEARCH</p>
+            <h2>Results for "{{ query }}"</h2>
+            <p class="section-description">
+                Found {{ total_results }} result{% if total_results != 1 %}s{% endif %} matching your search.
+            </p>
+        </div>
+    </div>
+
+
+    {% if total_results > 0 %}
+
+        <!-- VEHICLES -->
+        {% if vehicles %}
+        <div class="section-header" style="margin-top: 30px; margin-bottom: 15px;">
+            <h3>🚗 Vehicles ({{ vehicles|length }})</h3>
+        </div>
+
+        <div class="vehicles-grid" style="margin-bottom: 35px;">
+            {% for vehicle in vehicles %}
+            <div class="vehicle-card">
+                <div class="vehicle-card-top">
+                    <div class="vehicle-icon">🚗</div>
+                    <div class="vehicle-status">Active</div>
+                </div>
+
+                <div class="vehicle-info">
+                    <h3>{{ vehicle.make }} {{ vehicle.model }}</h3>
+                    <p class="vehicle-year">{{ vehicle.year }}</p>
+                </div>
+
+                <div class="vehicle-details">
+                    <div class="vehicle-detail-item">
+                        <span class="detail-label">License Plate</span>
+                        <strong>{{ vehicle.license_plate }}</strong>
+                    </div>
+                    <div class="vehicle-detail-item">
+                        <span class="detail-label">VIN</span>
+                        <strong>{% if vehicle.vin %}{{ vehicle.vin }}{% else %}Not provided{% endif %}</strong>
+                    </div>
+                </div>
+
+                <a href="{% url 'vehicle_detail' vehicle.id %}" class="vehicle-details-btn">
+                    View Details <span>→</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <!-- APPOINTMENTS -->
+        {% if appointments %}
+        <div class="section-header" style="margin-top: 30px; margin-bottom: 15px;">
+            <h3>📅 Appointments ({{ appointments|length }})</h3>
+        </div>
+
+        <div class="appointment-grid" style="margin-bottom: 35px;">
+            {% for appointment in appointments %}
+            <div class="appointment-card">
+                <div class="appointment-top">
+                    <div class="appointment-icon">📅</div>
+                    <span class="status-badge status-{{ appointment.status }}">
+                        {{ appointment.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="appointment-body">
+                    <h3>{{ appointment.service.name }}</h3>
+                    <p class="vehicle-name">🚗 {{ appointment.vehicle.make }} {{ appointment.vehicle.model }} {{ appointment.vehicle.year }}</p>
+
+                    <div class="appointment-info">
+                        <div>
+                            <span class="info-label">DATE</span>
+                            <strong>{{ appointment.appointment_date|date:"M d, Y" }}</strong>
+                        </div>
+                        <div>
+                            <span class="info-label">TIME</span>
+                            <strong>{{ appointment.appointment_time|time:"g:i A" }}</strong>
+                        </div>
+                    </div>
+
+                    {% if appointment.technician %}
+                    <div class="technician-row">
+                        <div class="technician-avatar">{{ appointment.technician.name|first|upper }}</div>
+                        <div>
+                            <span>Technician</span>
+                            <strong>{{ appointment.technician.name }}</strong>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <!-- MAINTENANCE RECORDS -->
+        {% if maintenance_records %}
+        <div class="section-header" style="margin-top: 30px; margin-bottom: 15px;">
+            <h3>🔧 Maintenance Records ({{ maintenance_records|length }})</h3>
+        </div>
+
+        <div class="maintenance-grid" style="margin-bottom: 35px;">
+            {% for record in maintenance_records %}
+            <div class="maintenance-card">
+                <div class="maintenance-header">
+                    <div class="maintenance-icon">🔧</div>
+                    <span class="maintenance-date">{{ record.maintenance_date|date:"M d, Y" }}</span>
+                </div>
+
+                <div class="maintenance-body">
+                    <h3>{{ record.service_name }}</h3>
+                    <p class="maintenance-vehicle">🚗 {{ record.vehicle.make }} {{ record.vehicle.model }} {{ record.vehicle.year }}</p>
+                    {% if record.description %}
+                        <p class="maintenance-description">{{ record.description }}</p>
+                    {% endif %}
+
+                    <div class="maintenance-cost">
+                        <div>
+                            <span>SERVICE COST</span>
+                            <strong>${{ record.cost }}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <!-- SERVICES -->
+        {% if services %}
+        <div class="section-header" style="margin-top: 30px; margin-bottom: 15px;">
+            <h3>🛠️ Available Services ({{ services|length }})</h3>
+        </div>
+
+        <div class="card-grid" style="margin-bottom: 35px;">
+            {% for service in services %}
+            <div class="vehicle-card">
+                <div class="vehicle-card-top">
+                    <div class="vehicle-icon">🛠️</div>
+                    <div class="vehicle-status">${{ service.base_price }}</div>
+                </div>
+                <div class="vehicle-info">
+                    <h3>{{ service.name }}</h3>
+                    <p class="vehicle-year">{{ service.estimated_duration }} min duration</p>
+                </div>
+                {% if service.description %}
+                <p style="font-size: 13px; color: #64748b; margin-top: 10px;">{{ service.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <!-- TECHNICIANS -->
+        {% if technicians %}
+        <div class="section-header" style="margin-top: 30px; margin-bottom: 15px;">
+            <h3>👨‍🔧 Technicians ({{ technicians|length }})</h3>
+        </div>
+
+        <div class="card-grid" style="margin-bottom: 35px;">
+            {% for tech in technicians %}
+            <div class="vehicle-card">
+                <div class="vehicle-card-top">
+                    <div class="vehicle-icon">👨‍🔧</div>
+                    <div class="vehicle-status">{% if tech.is_available %}Available{% else %}Busy{% endif %}</div>
+                </div>
+                <div class="vehicle-info">
+                    <h3>{{ tech.name }}</h3>
+                    <p class="vehicle-year">{{ tech.specialization }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    {% else %}
+
+        <div class="empty-state" style="margin-top: 20px;">
+            <div class="empty-icon">🔍</div>
+            <h2>No Results Found</h2>
+            <p>
+                We couldn't find anything matching "<strong>{{ query }}</strong>".
+                <br>Try searching with another vehicle model, service name, license plate, or technician name.
+            </p>
+            <a href="{% url 'app_dashboard' %}" class="primary-btn">
+                Return to Dashboard
+            </a>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

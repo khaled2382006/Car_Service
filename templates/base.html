@@ -4,14 +4,25 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>
-        {% block title %}Smart Car Service{% endblock %}
+        {% block title %}
+            Smart Car Service
+        {% endblock %}
     </title>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
 </head>
 
 
@@ -19,13 +30,15 @@
 
 <div class="app-layout">
 
+
     <!-- =========================
          SIDEBAR
     ========================== -->
 
     <aside class="sidebar">
 
-        <!-- Brand -->
+
+        <!-- BRAND -->
 
         <div class="brand">
 
@@ -34,79 +47,116 @@
             </div>
 
             <div>
-                <h2>SmartCar</h2>
-                <span>Service Management</span>
+
+                <h2>
+                    SmartCar
+                </h2>
+
+                <span>
+                    Service Management
+                </span>
+
             </div>
 
         </div>
 
 
-        <!-- Navigation -->
 
-<nav class="sidebar-nav">
+        <!-- NAVIGATION -->
 
-    <a href="{% url 'app_dashboard' %}" class="nav-link">
-        <span>⌂</span>
-        Dashboard
-    </a>
+        <nav class="sidebar-nav">
 
 
-    <a href="{% url 'vehicle_list' %}" class="nav-link">
-        <span>🚗</span>
-        My Vehicles
-    </a>
+            <a
+                href="{% url 'app_dashboard' %}"
+                class="nav-link"
+            >
+                <span>⌂</span>
+                Dashboard
+            </a>
 
 
-    <a href="{% url 'vehicle_create' %}" class="nav-link">
-        <span>＋</span>
-        Add Vehicle
-    </a>
+            <a
+                href="{% url 'vehicle_list' %}"
+                class="nav-link"
+            >
+                <span>🚗</span>
+                My Vehicles
+            </a>
 
 
-    <a href="{% url 'appointment_list' %}" class="nav-link">
-        <span>📅</span>
-        Appointments
-    </a>
+            <a
+                href="{% url 'vehicle_create' %}"
+                class="nav-link"
+            >
+                <span>＋</span>
+                Add Vehicle
+            </a>
 
 
-    <a href="{% url 'appointment_create' %}" class="nav-link">
-        <span>＋</span>
-        Book Appointment
-    </a>
+            <a
+                href="{% url 'appointment_list' %}"
+                class="nav-link"
+            >
+                <span>📅</span>
+                Appointments
+            </a>
 
 
-    <a href="{% url 'maintenance_list' %}" class="nav-link">
-        <span>🔧</span>
-        Maintenance
-    </a>
+            <a
+                href="{% url 'appointment_create' %}"
+                class="nav-link"
+            >
+                <span>＋</span>
+                Book Appointment
+            </a>
 
 
-    <a href="{% url 'service_list' %}" class="nav-link">
-        <span>🛠️</span>
-        Services
-    </a>
+            <a
+                href="{% url 'maintenance_list' %}"
+                class="nav-link"
+            >
+                <span>🔧</span>
+                Maintenance
+            </a>
 
 
-    <a href="{% url 'technician_list' %}" class="nav-link">
-        <span>👨‍🔧</span>
-        Technicians
-    </a>
+            <a
+                href="{% url 'service_list' %}"
+                class="nav-link"
+            >
+                <span>🛠️</span>
+                Services
+            </a>
 
 
-    <a href="{% url 'chat_page' %}" class="nav-link">
-        <span>🤖</span>
-        AI Assistant
-    </a>
+            <a
+                href="{% url 'technician_list' %}"
+                class="nav-link"
+            >
+                <span>👨‍🔧</span>
+                Technicians
+            </a>
 
-</nav>
+
+            <a
+                href="{% url 'chat_page' %}"
+                class="nav-link"
+            >
+                <span>🤖</span>
+                AI Assistant
+            </a>
 
 
-        <!-- =========================
-             SIDEBAR BOTTOM
-        ========================== -->
+        </nav>
+
+
+
+        <!-- SIDEBAR BOTTOM -->
 
         <div class="sidebar-bottom">
 
+            {% if request.user.is_authenticated %}
             <div class="user-mini">
 
                 <div class="user-avatar">
@@ -114,19 +164,15 @@
                 </div>
 
                 <div>
-
                     <strong>
                         {{ request.user.username }}
                     </strong>
-
                     <small>
                         Customer
                     </small>
-
                 </div>
 
             </div>
-
 
             <a
                 href="{% url 'logout' %}"
@@ -134,6 +180,28 @@
             >
                 Logout
             </a>
+            {% else %}
+            <div class="user-mini">
+                <div class="user-avatar">
+                    G
+                </div>
+                <div>
+                    <strong>
+                        Guest
+                    </strong>
+                    <small>
+                        Visitor
+                    </small>
+                </div>
+            </div>
+            <a
+                href="{% url 'login' %}"
+                class="logout-link"
+                style="color: #60a5fa;"
+            >
+                Sign In
+            </a>
+            {% endif %}
 
         </div>
 
@@ -148,15 +216,19 @@
     <main class="main-content">
 
 
-        <!-- Top Header -->
+        <!-- TOP HEADER -->
 
         <header class="top-header">
 
-            <div>
+
+            <!-- PAGE TITLE -->
+
+            <div class="header-title">
 
                 <p class="page-label">
                     SMART CAR SERVICE
                 </p>
+
 
                 <h1>
 
@@ -167,10 +239,49 @@
                 </h1>
 
             </div>
-            <!-- User -->
+
+
+
+            <!-- SEARCH -->
+
+            {% block search_bar %}
+            <form
+                method="GET"
+                action="{% url 'global_search' %}"
+                class="top-search"
+            >
+
+                <span class="top-search-icon">
+                    🔍
+                </span>
+
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search vehicles, services..."
+                    value="{{ query|default:'' }}"
+                    autocomplete="off"
+                >
+
+
+                <button
+                    type="submit"
+                    class="search-button"
+                >
+                    Search
+                </button>
+
+            </form>
+            {% endblock %}
+
+
+
+            <!-- USER -->
 
             <div class="header-user">
 
+                {% if request.user.is_authenticated %}
                 <span>
 
                     Welcome,
@@ -187,21 +298,23 @@
                     {{ request.user.username|first|upper }}
 
                 </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="primary-btn" style="padding: 8px 16px; font-size: 13px;">Login</a>
+                <a href="{% url 'register' %}" class="secondary-btn" style="padding: 8px 16px; font-size: 13px;">Register</a>
+                {% endif %}
 
             </div>
+
 
         </header>
 
 
 
-        <!-- =========================
-             PAGE CONTENT
-        ========================== -->
+        <!-- PAGE CONTENT -->
 
         <section class="page-content">
 
             {% block content %}
-
             {% endblock %}
 
         </section>
@@ -210,6 +323,7 @@
     </main>
 
 </div>
+
 
 </body>
 

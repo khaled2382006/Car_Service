@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (
@@ -15,6 +16,85 @@ from .models import (
     Technician,
     Vehicle,
 )
+
+
+# =========================================================
+# GLOBAL SEARCH
+# =========================================================
+
+@login_required
+def global_search(request):
+    query = request.GET.get("q", "").strip()
+
+    vehicles = []
+    appointments = []
+    maintenance_records = []
+    services = []
+    technicians = []
+
+    if query:
+        vehicles = Vehicle.objects.filter(
+            owner=request.user
+        ).filter(
+            Q(make__icontains=query) |
+            Q(model__icontains=query) |
+            Q(license_plate__icontains=query) |
+            Q(vin__icontains=query) |
+            Q(year__icontains=query)
+        )
+
+        appointments = Appointment.objects.filter(
+            vehicle__owner=request.user
+        ).filter(
+            Q(vehicle__make__icontains=query) |
+            Q(vehicle__model__icontains=query) |
+            Q(service__name__icontains=query) |
+            Q(technician__name__icontains=query) |
+            Q(status__icontains=query) |
+            Q(notes__icontains=query)
+        ).select_related("vehicle", "service", "technician")
+
+        maintenance_records = MaintenanceRecord.objects.filter(
+            vehicle__owner=request.user
+        ).filter(
+            Q(service_name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(vehicle__make__icontains=query) |
+            Q(vehicle__model__icontains=query) |
+            Q(notes__icontains=query)
+        ).select_related("vehicle")
+
+        services = Service.objects.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query)
+        )
+
+        technicians = Technician.objects.filter(
+            Q(name__icontains=query) |
+            Q(specialization__icontains=query)
+        )
+
+    total_results = (
+        len(vehicles) +
+        len(appointments) +
+        len(maintenance_records) +
+        len(services) +
+        len(technicians)
+    )
+
+    return render(
+        request,
+        "domain_app/search_results.html",
+        {
+            "query": query,
+            "vehicles": vehicles,
+            "appointments": appointments,
+            "maintenance_records": maintenance_records,
+            "services": services,
+            "technicians": technicians,
+            "total_results": total_results,
+        },
+    )
 
 
 # =========================================================
@@ -61,15 +141,26 @@ def app_home(request):
 
 @login_required
 def vehicle_list(request):
+    query = request.GET.get("q", "").strip()
     vehicles = Vehicle.objects.filter(
         owner=request.user
     )
+
+    if query:
+        vehicles = vehicles.filter(
+            Q(make__icontains=query) |
+            Q(model__icontains=query) |
+            Q(license_plate__icontains=query) |
+            Q(vin__icontains=query) |
+            Q(year__icontains=query)
+        )
 
     return render(
         request,
         "domain_app/vehicle_list.html",
         {
-            "vehicles": vehicles
+            "vehicles": vehicles,
+            "query": query,
         }
     )
 

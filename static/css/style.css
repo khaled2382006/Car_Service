@@ -2273,3 +2273,351 @@ body {
     }
 
 }
+/* =========================
+   VEHICLE SEARCH
+========================= */
+
+.vehicle-search-box {
+    position: relative;
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto 12px;
+}
+
+.vehicle-search-box input {
+    width: 100%;
+    box-sizing: border-box;
+
+    height: 52px;
+
+    padding: 0 48px 0 48px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    color: #1e293b;
+
+    font-size: 14px;
+
+    outline: none;
+
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+
+    transition: all 0.2s ease;
+}
+
+.vehicle-search-box input::placeholder {
+    color: #94a3b8;
+}
+
+.vehicle-search-box input:focus {
+    border-color: #4f7cff;
+
+    box-shadow:
+        0 0 0 4px rgba(79, 124, 255, 0.10),
+        0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+
+.search-icon {
+    position: absolute;
+
+    left: 18px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 17px;
+
+    pointer-events: none;
+}
+
+
+.clear-search {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 30px;
+    height: 30px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f1f5f9;
+
+    color: #64748b;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.clear-search:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+
+.search-result-info {
+    width: 100%;
+    max-width: 650px;
+
+    margin: 0 auto 22px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    min-height: 18px;
+}
+
+
+/* Search Empty State */
+
+.search-empty-state {
+    margin-top: 25px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .vehicle-search-box {
+        max-width: 100%;
+    }
+
+    .search-result-info {
+        max-width: 100%;
+    }
+
+}
+/* =========================
+   VEHICLE SEARCH
+========================= */
+
+.vehicle-search {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto 30px;
+
+    position: relative;
+}
+
+.vehicle-search span {
+    position: absolute;
+
+    left: 18px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+.vehicle-search input {
+    width: 100%;
+    height: 54px;
+
+    box-sizing: border-box;
+
+    padding: 0 20px 0 50px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+
+    background: white;
+
+    font-size: 15px;
+    color: #1e293b;
+
+    outline: none;
+
+    transition: 0.2s;
+
+    box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+}
+
+.vehicle-search input::placeholder {
+    color: #94a3b8;
+}
+
+.vehicle-search input:focus {
+    border-color: #4f7cff;
+
+    box-shadow:
+        0 0 0 4px rgba(79, 124, 255, 0.10),
+        0 5px 20px rgba(15, 23, 42, 0.06);
+}
+
+
+/* No Search Results */
+
+.search-no-results {
+    display: none;
+
+    text-align: center;
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    padding: 60px 30px;
+
+    margin-top: 20px;
+}
+
+.search-no-results .empty-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.search-no-results h3 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    color: #1e293b;
+}
+
+.search-no-results p {
+    margin: 0;
+    color: #64748b;
+}
+
+
+/* Mobile */
+
+@media (max-width: 700px) {
+
+    .vehicle-search {
+        max-width: 100%;
+    }
+
+    .vehicle-search input {
+        height: 50px;
+    }
+
+}
+
+
+/* =========================
+   TOP HEADER SEARCH
+========================= */
+
+.top-search {
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+}
+
+.top-search-icon {
+    position: absolute;
+    left: 14px;
+    font-size: 15px;
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.top-search input {
+    width: 100%;
+    height: 44px;
+    padding: 0 92px 0 42px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #f9fafb;
+    font-size: 13.5px;
+    color: #111827;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.top-search input:focus {
+    background: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.12);
+}
+
+.top-search .search-button {
+    position: absolute;
+    right: 6px;
+    height: 32px;
+    padding: 0 14px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.top-search .search-button:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   AUTHENTICATION PAGES
+========================= */
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    min-height: calc(100vh - 180px);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+}
+
+.auth-actions {
+    margin-top: 28px;
+}
+
+.auth-footer {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #edf0f4;
+    text-align: center;
+    font-size: 14px;
+    color: #64748b;
+}
+
+.auth-link {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.mb-4 {
+    margin-bottom: 18px;
+}
