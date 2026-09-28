@@ -11,6 +11,8 @@ from .tools import (
     create_appointment,
 )
 
+load_dotenv()
+
 
 def get_client():
     return genai.Client()
