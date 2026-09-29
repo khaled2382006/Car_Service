@@ -4,21 +4,19 @@ from . import views
 
 
 urlpatterns = [
-    # Global Search
+
     path(
         "search/",
         views.global_search,
         name="global_search",
     ),
 
-    # Dashboard
     path(
         "",
         views.app_dashboard,
         name="app_dashboard",
     ),
 
-    # Vehicles
     path(
         "vehicles/",
         views.vehicle_list,
@@ -37,7 +35,6 @@ urlpatterns = [
         name="vehicle_detail",
     ),
 
-    # Maintenance
     path(
         "vehicles/<int:vehicle_id>/maintenance/add/",
         views.maintenance_create,
@@ -50,7 +47,6 @@ urlpatterns = [
         name="maintenance_list",
     ),
 
-    # Appointments
     path(
         "appointments/",
         views.appointment_list,
@@ -63,14 +59,12 @@ urlpatterns = [
         name="appointment_create",
     ),
 
-    # Services
     path(
         "services/",
         views.service_list,
         name="service_list",
     ),
 
-    # Technicians
     path(
         "technicians/",
         views.technician_list,

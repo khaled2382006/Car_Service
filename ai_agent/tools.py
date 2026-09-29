@@ -86,16 +86,6 @@ def get_available_technicians(user):
     }
 
 
-from datetime import date, datetime
-from django.utils import timezone
-
-from domain_app.models import (
-    Vehicle,
-    Appointment,
-    Service,
-    Technician,
-)
-
 
 def create_appointment(
     user,
@@ -107,7 +97,6 @@ def create_appointment(
     notes="",
 ):
     try:
-        # 1. Check vehicle belongs to logged-in user
         vehicle = Vehicle.objects.filter(
             id=vehicle_id,
             owner=user,
@@ -119,7 +108,6 @@ def create_appointment(
                 "error": "Vehicle not found or does not belong to the user.",
             }
 
-        # 2. Check service
         service = Service.objects.filter(
             id=service_id
         ).first()
@@ -130,7 +118,6 @@ def create_appointment(
                 "error": "Service not found.",
             }
 
-        # 3. Check technician
         technician = Technician.objects.filter(
             id=technician_id,
             is_available=True,
@@ -142,26 +129,21 @@ def create_appointment(
                 "error": "Technician not found or not available.",
             }
 
-        # 4. Normalize date
         if isinstance(appointment_date, str):
             appointment_date = appointment_date.strip()
 
-            # Expected format: YYYY-MM-DD
             appointment_date = date.fromisoformat(
                 appointment_date
             )
 
-        # 5. Normalize time
         if isinstance(appointment_time, str):
             appointment_time = appointment_time.strip()
 
-            # Expected format: HH:MM
             appointment_time = datetime.strptime(
                 appointment_time,
                 "%H:%M",
             ).time()
 
-        # 6. Prevent booking in the past
         today = timezone.localdate()
 
         if appointment_date < today:
@@ -170,7 +152,6 @@ def create_appointment(
                 "error": "You cannot book an appointment in the past.",
             }
 
-        # 7. Check technician conflict
         conflict = Appointment.objects.filter(
             technician=technician,
             appointment_date=appointment_date,
@@ -191,7 +172,6 @@ def create_appointment(
                 ),
             }
 
-        # 8. Create appointment
         appointment = Appointment.objects.create(
             vehicle=vehicle,
             technician=technician,

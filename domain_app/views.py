@@ -18,10 +18,6 @@ from .models import (
 )
 
 
-# =========================================================
-# GLOBAL SEARCH
-# =========================================================
-
 @login_required
 def global_search(request):
     query = request.GET.get("q", "").strip()
@@ -97,9 +93,6 @@ def global_search(request):
     )
 
 
-# =========================================================
-# DASHBOARD
-# =========================================================
 
 @login_required
 def app_home(request):
@@ -134,10 +127,6 @@ def app_home(request):
         context
     )
 
-
-# =========================================================
-# VEHICLES
-# =========================================================
 
 @login_required
 def vehicle_list(request):
@@ -219,10 +208,7 @@ def vehicle_detail(request, vehicle_id):
     )
 
 
-# =========================================================
-# MAINTENANCE
-# =========================================================
-
+ 
 @login_required
 def maintenance_create(request, vehicle_id):
 
@@ -263,9 +249,6 @@ def maintenance_create(request, vehicle_id):
     )
 
 
-# =========================================================
-# APPOINTMENTS
-# =========================================================
 
 @login_required
 def appointment_create(request):
@@ -309,14 +292,11 @@ def appointment_create(request):
     )
 
 
-# =========================================================
-# TECHNICIANS
-# =========================================================
 
 @login_required
 def technician_list(request):
 
-    technicians = Technician.objects.all()
+    technicians = Technician.objects.all().order_by("name")
 
     return render(
         request,
@@ -327,14 +307,10 @@ def technician_list(request):
     )
 
 
-# =========================================================
-# SERVICES
-# =========================================================
-
 @login_required
 def service_list(request):
 
-    services = Service.objects.all()
+    services = Service.objects.all().order_by("name")
 
     return render(
         request,
@@ -352,7 +328,7 @@ def service_list(request):
 @login_required
 def spare_part_list(request):
 
-    spare_parts = SparePart.objects.all()
+    spare_parts = SparePart.objects.all().order_by("name")
 
     return render(
         request,
@@ -386,63 +362,7 @@ def app_dashboard(request):
             "appointments": appointments,
         },
     )
-@login_required
-def maintenance_list(request):
-    vehicles = Vehicle.objects.filter(
-        owner=request.user
-    ).prefetch_related("maintenance_records")
 
-    return render(
-        request,
-        "domain_app/maintenance_list.html",
-        {
-            "vehicles": vehicles,
-        },
-    )
-@login_required
-def appointment_list(request):
-    appointments = (
-        Appointment.objects
-        .filter(vehicle__owner=request.user)
-        .select_related(
-            "vehicle",
-            "technician",
-            "service",
-        )
-        .order_by("appointment_date", "appointment_time")
-    )
-
-    return render(
-        request,
-        "domain_app/appointment_list.html",
-        {
-            "appointments": appointments,
-        },
-    )
-
-
-def service_list(request):
-    services = Service.objects.all().order_by("name")
-
-    return render(
-        request,
-        "domain_app/service_list.html",
-        {
-            "services": services,
-        },
-    )
-
-
-def technician_list(request):
-    technicians = Technician.objects.all().order_by("name")
-
-    return render(
-        request,
-        "domain_app/technician_list.html",
-        {
-            "technicians": technicians,
-        },
-    )
 @login_required
 def appointment_list(request):
     appointments = (
@@ -476,28 +396,3 @@ def maintenance_list(request):
         },
     )
 
-
-@login_required
-def service_list(request):
-    services = Service.objects.all().order_by("name")
-
-    return render(
-        request,
-        "domain_app/service_list.html",
-        {
-            "services": services,
-        },
-    )
-
-
-@login_required
-def technician_list(request):
-    technicians = Technician.objects.all().order_by("name")
-
-    return render(
-        request,
-        "domain_app/technician_list.html",
-        {
-            "technicians": technicians,
-        },
-    )
